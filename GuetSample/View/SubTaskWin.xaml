@@ -1,0 +1,145 @@
+﻿<Window x:Class="GuetSample.SubTaskWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xoxy="http://Epxoxy.Controls.org"
+        xmlns:local="clr-namespace:GuetSample"
+        mc:Ignorable="d"
+        x:Name="win"
+        Title="SubTaskWin" Height="500" Width="600"
+        MinHeight="500" MinWidth="600">
+    <Window.Resources>
+        <xoxy:BindingProxy x:Key="dataContextProxy" Data="{Binding DataContext, ElementName=win}"/>
+    </Window.Resources>
+    <Grid x:Name="contentRoot" x:FieldModifier="private">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Height="106">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="210"/>
+            </Grid.ColumnDefinitions>
+            <ItemsControl BorderThickness="0,0,1,0" BorderBrush="LightGray">
+                <ItemsControl>
+                    <TextBlock Text="Repeat" Margin="4,0" Foreground="DimGray"/>
+                    <StackPanel Orientation="Horizontal" Margin="4">
+                        <CheckBox Content="EnableRepeat" IsChecked="{Binding RepeatEnable}" Style="{StaticResource AnimationCheckBox}" Margin="4"/>
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding RepeatEnable, Converter={StaticResource bool2Visible}}" Margin="7,0">
+                            <TextBox Style="{StaticResource PlaceHolderTextBoxStyle2}" 
+                                 xoxy:PlaceHolder.Content="Repeat Times"
+                                 Text="{Binding RepeatInfo.RepeatTimes}" />
+                            <TextBox Style="{StaticResource PlaceHolderTextBoxStyle2}" 
+                                 xoxy:PlaceHolder.Content="Delay Times"
+                                 Text="{Binding RepeatInfo.DelayTime}"/>
+                            <TextBlock Text="Remain" Margin="4,0,4,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding RepeatInfo.RemainTimes}" VerticalAlignment="Center" MinWidth="20"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ItemsControl>
+                <TextBlock Text="Course" Margin="4,0" Foreground="DimGray"/>
+                <StackPanel Orientation="Horizontal" Background="White" Margin="4">
+                    <ItemsControl ItemsSource="{Binding OptionalsList}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" IsItemsHost="True"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding Items}" Style="{StaticResource ComboBoxStyle}"
+                                          SelectedValue="{Binding Value}" DisplayMemberPath="Display" SelectedValuePath="Value" 
+                                          Margin="1" MinWidth="40"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Content="Request" Command="{Binding ShowSelectCourseCommand}" Style="{StaticResource ButtonStyle}"/>
+                </StackPanel>
+            </ItemsControl>
+            <Grid Grid.Column="1" Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <ItemsControl BorderThickness="0,0,0,1" BorderBrush="LightGray">
+                    <StackPanel Orientation="Horizontal" Margin="4,0" TextBlock.Foreground="Gray">
+                        <TextBlock Text="Monitor [Count : "/>
+                        <TextBlock Text="{Binding MonitorItems.Count, FallbackValue=0}"/>
+                        <TextBlock Text="]"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Index[" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="rowTb" Text="{Binding SelectedIndex, ElementName=datagrid}" VerticalAlignment="Center"/>
+                        <TextBlock Text=", " VerticalAlignment="Center"/>
+                        <TextBlock x:Name="colTb" Text="0" VerticalAlignment="Center"/>
+                        <TextBlock Text="]" VerticalAlignment="Center"/>
+                        <Button Command="{Binding AddMonitorCommand}" Style="{StaticResource ForegroundChangeBtnStyle}"
+                                Content="Add Monitor" Padding="4,2">
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource paramToArray}">
+                                    <MultiBinding.Bindings>
+                                        <Binding ElementName="colTb" Path="Text" />
+                                        <Binding ElementName="rowTb" Path="Text" />
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+                            </Button.CommandParameter>
+                        </Button>
+                        <Button Content="Load" Command="{Binding LoadMonitorCommand}" Style="{StaticResource ForegroundChangeBtnStyle}"/>
+                    </StackPanel>
+                </ItemsControl>
+                <ItemsControl Grid.Row="1">
+                    <WrapPanel Orientation="Horizontal">
+                        <ToggleButton Content="MonitorPane" IsChecked="{Binding IsOpen, ElementName=monitorPane}"
+                                      Margin="2" VerticalAlignment="Stretch" Template="{StaticResource GrayButtonTemplateKey}"
+                                      Width="100" BorderBrush="LightGray"/>
+                        <Button Margin="2" Command="{Binding AbortCommand}" Content="AbortTask" VerticalAlignment="Center" Style="{StaticResource ButtonStyle}" Width="100"/>
+                    </WrapPanel>
+                </ItemsControl>
+            </Grid>
+        </Grid>
+        <DataGrid x:Name="datagrid" Grid.Row="1" ItemsSource="{Binding DataTable}" BorderThickness="0"
+                  ScrollViewer.CanContentScroll="False"
+                  CanUserAddRows="False" AutoGenerateColumns="True"
+                  EnableRowVirtualization="True" EnableColumnVirtualization="True" 
+                  VerticalGridLinesBrush="#d6c79b" HorizontalGridLinesBrush="#d6c79b" 
+                  ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle1}"
+                  SelectionMode="Single" SelectionUnit="FullRow" AlternationCount="2" 
+                  CurrentCellChanged="onDatagridCurrentCellChanged"/>
+        <xoxy:MaskControl x:Name="monitorPane" x:FieldModifier="private" Grid.RowSpan="2">
+            <Border Background="White" HorizontalAlignment="Right"
+                    BorderBrush="LightGray" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <ListBox Style="{StaticResource LightListBoxStyle}" ItemsSource="{Binding MonitorItems}"
+                             MinWidth="250">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Padding="10,7" Text="{Binding}">
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Edit"
+                                                          Tag="{Binding Data.CallEditMonitorCommand, Source={StaticResource dataContextProxy}}" 
+                                                          CommandParameter="{Binding}"/>
+                                            <MenuItem Header="Remove"
+                                                          Command="{Binding Data.RemoveMonitorCommand, Source={StaticResource dataContextProxy}}"
+                                                          CommandParameter="{Binding}"/>
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <ItemsControl Grid.Row="1">
+                        <Button Content="Load" Command="{Binding LoadMonitorCommand}" Style="{StaticResource ButtonStyle}"/>
+                        <Button Content="Save" Command="{Binding SaveMonitorCommand}" Style="{StaticResource ButtonStyle}"/>
+                    </ItemsControl>
+                </Grid>
+            </Border>
+        </xoxy:MaskControl>
+    </Grid>
+</Window>

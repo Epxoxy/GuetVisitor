@@ -1,0 +1,66 @@
+﻿<Window x:Class="GuetSample.CustomRequest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:GuetSample.ViewModel"
+        xmlns:xoxy="http://Epxoxy.Controls.org"
+        xmlns:local="clr-namespace:GuetSample"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="CustomRequest" Height="500" Width="600"
+        MinHeight="500" MinWidth="600">
+    <Window.Resources>
+        <vm:CustomRequestViewModel x:Key="cusguetvm" />
+    </Window.Resources>
+    <Grid x:Name="contentRoot" x:FieldModifier="private" DataContext="{StaticResource cusguetvm}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding HtmlValue}" Padding="7" 
+                 Stylus.IsFlicksEnabled="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ScrollViewer.PanningMode="Both" ScrollViewer.CanContentScroll="False"/>
+        <Border Background="White" Grid.Row="1" BorderBrush="LightGray" BorderThickness="0, 1, 0, 0"
+                Padding="0,0,0,2">
+            <StackPanel Orientation="Vertical" Margin="4">
+                <TextBox Style="{StaticResource PlaceHolderTextBoxStyle2}" xoxy:PlaceHolder.Content="Custom pattern" 
+                         Margin="2,5" Text="{Binding CustomPattern}" />
+                <TextBox Style="{StaticResource PlaceHolderTextBoxStyle2}" xoxy:PlaceHolder.Content="Custom url" 
+                         Margin="2,5" Text="{Binding CustomUrl}" />
+                <TextBox Style="{StaticResource PlaceHolderTextBoxStyle2}" xoxy:PlaceHolder.Content="Data" 
+                         Margin="2,5" Text="{Binding CustomData}" />
+                <StackPanel Orientation="Horizontal" Background="White" Margin="0, 10">
+                    <CheckBox Content="Post" IsChecked="{Binding CustomTypeOfPost}" Style="{StaticResource AnimationCheckBox}"
+                                  VerticalAlignment="Center" Margin="0,0,7,0"/>
+                    <CheckBox Content="EnableRepeat" IsChecked="{Binding CustomRepeatEnable}" Style="{StaticResource AnimationCheckBox}"
+                                      VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding CustomRepeatEnable, Converter={StaticResource bool2Visible}}" Margin="7,0">
+                        <TextBox Style="{StaticResource PlaceHolderTextBoxStyle2}" 
+                                 xoxy:PlaceHolder.Content="Repeat Times"
+                                 Text="{Binding CustomRepeatInfo.RepeatTimes}" />
+                        <TextBox Style="{StaticResource PlaceHolderTextBoxStyle2}" 
+                                 xoxy:PlaceHolder.Content="Delay Times"
+                                         VerticalContentAlignment="Bottom"
+                                 Text="{Binding CustomRepeatInfo.DelayTime}"/>
+                        <TextBlock Text="Remain" Margin="4,0,4,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding CustomRepeatInfo.RemainTimes}" VerticalAlignment="Center" MinWidth="20"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox SelectedValue="{Binding NotifySettingValue}" ItemsSource="{Binding NotifySelection}" 
+                              DisplayMemberPath="Display" SelectedValuePath="Value" SelectedIndex="0"
+                              Margin="0,0,6,0" Style="{StaticResource ComboBoxStyle}"/>
+                    <ComboBox Style="{StaticResource ComboBoxStyle}" SelectedValue="{Binding CustomEncoding}">
+                        <sys:String>utf-8</sys:String>
+                        <sys:String>gb2312</sys:String>
+                    </ComboBox>
+                    <Button Command="{Binding SendCustomDataCommand}" Style="{StaticResource ButtonStyle}" Content="Start"
+                                    Margin="7,0,0,0" HorizontalAlignment="Left"/>
+                    <Button Command="{Binding AbortCommand}" Style="{StaticResource ButtonStyle}" Content="Abort"
+                                    Margin="7,0,0,0" HorizontalAlignment="Left"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

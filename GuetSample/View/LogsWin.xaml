@@ -1,0 +1,17 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="GuetSample.LogsWin"
+        mc:Ignorable="d"
+        Title="LogsWin" Height="300" Width="300">
+    <Grid x:Name="contentRoot" x:FieldModifier="private">
+        <TextBox x:Name="logTb" IsReadOnly="True" BorderThickness="0" Padding="7"
+                 Stylus.IsFlicksEnabled="True" 
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 ScrollViewer.PanningMode="Both" ScrollViewer.CanContentScroll="False">
+        </TextBox>
+    </Grid>
+</Window>

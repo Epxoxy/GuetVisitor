@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="GuetSample.CellMonitorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xoxy="http://Epxoxy.Controls.org"
+             xmlns:local="clr-namespace:GuetSample"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400"
+             MaxWidth="450" MaxHeight="400">
+    <ItemsControl x:Name="root" Background="White" Padding="4">
+        <TextBlock Text="Cell" Margin="4,0" Foreground="DimGray"/>
+        <TextBox Text="{Binding CellMonitor.PrimaryKeyValue}" xoxy:PlaceHolder.Content="Primary"
+                 IsReadOnly="True" Style="{StaticResource PlaceHolderTextBoxStyle2}" Margin="4,10,4,0"/>
+        <TextBox Text="{Binding CellMonitor.ColumnIndex}" xoxy:PlaceHolder.Content="Column"
+                         Style="{StaticResource PlaceHolderTextBoxStyle2}" Margin="4,10,4,0"/>
+        <TextBox Text="{Binding CellMonitor.OriginValue}" xoxy:PlaceHolder.Content="Value"
+                         Style="{StaticResource PlaceHolderTextBoxStyle2}" Margin="4,10,4,0"/>
+
+        <TextBlock Text="FireTask" Margin="4,10,4,4" Foreground="DimGray"/>
+        <ItemsControl x:Name="taskPart">
+            <TextBox Text="{Binding FireTask.Data}" xoxy:PlaceHolder.Content="Data" Margin="4,10,4,0"
+                     Style="{StaticResource PlaceHolderTextBoxStyle2}"
+                     ScrollViewer.PanningMode="VerticalOnly"
+                     Stylus.IsFlicksEnabled="True" ScrollViewer.CanContentScroll="False"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     TextWrapping="Wrap" MaxHeight="80"/>
+            <TextBox Text="{Binding FireTask.Url}" xoxy:PlaceHolder.Content="Url" Margin="4,10,4,0"
+                     Style="{StaticResource PlaceHolderTextBoxStyle2}"
+                     ScrollViewer.PanningMode="VerticalOnly"
+                     Stylus.IsFlicksEnabled="True" ScrollViewer.CanContentScroll="False"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     TextWrapping="Wrap" MaxHeight="80"/>
+            <CheckBox IsChecked="{Binding FireTask.TypeOfPost}" Content="TypeOfPost" Margin="4,10,4,0"
+                          Style="{StaticResource AnimationCheckBox}"/>
+        </ItemsControl>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Create Defalut" Margin="2,7" HorizontalAlignment="Left" Style="{StaticResource ForegroundChangeBtnStyle}"
+                Click="createDefaultBtnClick"/>
+            <Button Content="Clear Task" Margin="12,7" HorizontalAlignment="Left" Style="{StaticResource ForegroundChangeBtnStyle}"
+                Click="clearTaskClick"/>
+        </StackPanel>
+    </ItemsControl>
+</UserControl>

@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<models>
+  <site siteName="Bkjw" encoding="gbk">
+    <page key="Login"
+          type="post"
+          nomenu="true"
+          url="http://bkjw2.guet.edu.cn/student/public/login.asp"
+          postdataFormat="username={0}&amp;passwd={1}&amp;login=%B5%C7%A1%A1%C2%BC"
+          pattern="&lt;title&gt;(\u6559\u5b66\u7ba1\u7406\u7cfb\u7edf)\s+?\[(\d+?)\]&lt;/title&gt;"/>
+    <page key="CourseTable"
+          type="post"
+          optional="term"
+          url="http://bkjw2.guet.edu.cn/student/coursetable.asp"
+          postdataFormat="term={0}"
+          pattern="&lt;th&gt;([^\u5907\u6ce8]+?)&lt;/th&gt;(&lt;td.+?/td&gt;)(&lt;td.+?/td&gt;)(&lt;td.+?/td&gt;)(&lt;td.+?/td&gt;)(&lt;td.+?/td&gt;)(&lt;td.+?/td&gt;)(&lt;td.+?/td&gt;)"
+          headers="Section|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday">
+    </page>
+    <page key="GetedScore"
+          type="post"
+          optional="courseProperties"
+          url="http://bkjw2.guet.edu.cn/student/Score.asp"
+          postdataFormat="ckind={0}&amp;lwPageSize=1000&amp;lwBtnquery=%B2%E9%D1%AF"
+          pattern="&lt;tr&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;/tr&gt;"
+          headers="Term|ClassName|ClassCode|Score|Credits|Properties"/>
+    <page key="LabScore"
+          type="post"
+          optional="term"
+           url="http://bkjw2.guet.edu.cn/student/labScore.asp"
+          postdataFormat="term={0}&amp;lwPageSize=1000&amp;lwBtnquery=%B2%E9%D1%AF"
+          pattern=""/>
+    <page key="SelectedCourse"
+          type="post"
+          optional="term"
+          postdataFormat="term={0}"
+          pattern="&lt;tr&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;/tr&gt;" url="http://bkjw2.guet.edu.cn/student/Selected.asp"
+          headers="SerialNo|ClassCode|ClassName|Teacher|SelectType|ExamTime|PayInfo"/>
+    <page key="ExamPlan"
+          type="post"
+          optional="type_exam"
+          postdataFormat="type={0}&amp;lwPageSize=1000&amp;lwBtnquery=%B2%E9%D1%AF"
+          headers="ClassName|ClassCode|Weeks|Day|Section|ClassRoom"
+          pattern="&lt;tr&gt;&lt;td.+?&gt;(.+?)&lt;.+?center&gt;(.+?)&lt;.+?center&gt;(\d*)&lt;.+?center&gt;(.+?)&lt;.+?center&gt;(.+?)&lt;.+?center&gt;(.+?)&lt;.+?tr&gt;" url="http://bkjw2.guet.edu.cn/student/testquery.asp">
+    </page>
+    <page key="UnSelectCourseAction"
+          type="post"
+          nomenu="true"
+          postdataFormat="course={0}&amp;lwBtnunselect=%CC%E1%BD%BB"
+          pattern="" url="http://bkjw2.guet.edu.cn/student/UnSelect.asp"/>
+    <page key="UnSelectCourse"
+          type="get"
+          nextKey="UnSelectCourseAction"
+          handHeader="Value"
+          headers="Value|Name|Type|Teacher"
+          pattern="value='(.+?)'&gt;(.+?)&lt;.+?&lt;td.+?&gt;(.+?)&lt;.+?&lt;td.+?&gt;(.+?)&lt;"
+          url="http://bkjw2.guet.edu.cn/student/UnSelect.asp">
+    </page>
+    <page key="CreditsPoint"
+          type="post"
+          nextKey="CreditsPoint2"
+          headers="Sno|CreditsPoint|Type"
+          postdataFormat="xn={0}&amp;lwPageSize=1000&amp;lwBtnquery=%B2%E9%D1%AF"
+          optional="year"
+          pattern="&lt;tr&gt;&lt;th&gt;(\d*)&lt;/th&gt;&lt;td.+?&gt;(\d+?)&lt;/font&gt;.+?&lt;/td&gt;&lt;th&gt;(.*)&lt;/th&gt;&lt;/tr&gt;"
+          url="http://bkjw2.guet.edu.cn/student/xuefenji.asp">
+    </page>
+    <page key="CreditsPoint2"
+          type="post"
+          nomenu="true"
+          optional=""
+          headers="Sno|CreditsPoint|Type"
+          postdataFormat="lwBtnreqry=%D6%D8%D0%C2%B2%E9%D1%AF"
+          pattern=""
+          url="http://bkjw2.guet.edu.cn/student/xuefenji.asp">
+    </page>
+    <page key="SelectCourse"
+          type="post"
+          nextKey="SelectCourseAction"
+          handHeader="ClassNo"
+          getHandRule="(spno|selecttype).+?value=&quot;(.+?)&quot;"
+          postdataFormat="spno={0}&amp;grade={1}&amp;selecttype={2}&amp;lwPageSize=1000&amp;lwBtnquery=%B2%E9%D1%AF"
+          optional="majorList|grade|selecttype"
+          pattern="CourseNo=(.+?)'.+?&gt;(.+?)&lt;.+?TeacherNo=(.+?)'.+?&gt;(.+?)&lt;.+?&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;"
+          url="http://bkjw2.guet.edu.cn/student/select.asp"
+          headers="ClassNo|Name|TeacherNo|Teacher|Properties|Credits|LearnTime|Volume|Selected|ClassCode"
+          primaryKey="ClassNo">
+    </page>
+    <page key="SelectCourseAction"
+          type="post"
+          nomenu="true"
+          postdataFormat="spno={0}&amp;selecttype={1}&amp;testtime=&amp;course={2}&amp;textbook{2}=0&amp;lwBtnselect=%CC%E1%BD%BB"
+          url="http://bkjw2.guet.edu.cn/student/select.asp">
+    </page>
+    <page key="SelectLab"
+          type="post"
+          optional="term|majorList|grade"
+          pattern="a href=&apos;(.+?)&apos;&gt;(.+?)&lt;/a&gt;&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;"
+          postdataFormat="term={0}&amp;spno={1}&amp;SpecialtyList={1}&amp;grade={2}&amp;lwPageSize=1000&amp;lwBtnquery=%B2%E9%D1%AF"
+          url="http://bkjw2.guet.edu.cn/student/labselect.asp"
+          headers="Link|LabCode|Name|Major">
+    </page>
+    <page key="PersonInfo"
+          type="get"
+          headers="Name|Data"
+          pattern="&lt;p&gt;(.+?):(.+?)&lt;/p&gt;"
+          url="http://bkjw2.guet.edu.cn/student/Info.asp" >
+    </page>
+    <page key="NotPassCredits"
+          type="get"
+          headers="ClassName|Credits|HightestGrade"
+          pattern="&lt;tr&gt;&lt;td&gt;\s+?(.+?)&lt;/td&gt;&lt;td.+?&gt;\s+?(\d+?)&lt;/td&gt;&lt;td.+?&gt;(\d+?)&lt;/td&gt;&lt;/tr&gt;"
+          url="http://bkjw2.guet.edu.cn/student/notpass.asp">
+    </page>
+    <page key="RatedTeaching"
+          type="get"
+          headers="SericalNo|ClassName|Teacher|RatedStatus"
+          pattern="&lt;tr&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;/tr&gt;"
+          url="http://bkjw2.guet.edu.cn/student/stjxpg.asp">
+    </page>
+    <page key="PassedCredits"
+          type="get"
+          headers="ClassCode|ClassName|Credits|Properties"
+          pattern="&lt;tr&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(.+?)&lt;/td&gt;&lt;/tr&gt;"
+          url="http://bkjw2.guet.edu.cn/student/credits.asp">
+    </page>
+    <page key="UnSelectLab"
+          type="get"
+          handHeader="ItemNo"
+          headers="ItemNo|LabName|Batch"
+          pattern="&lt;tr&gt;&lt;td.+?&gt;&lt;input.+?value='(\d*)'&gt;(.+?)&lt;/td&gt;&lt;td.+?&gt;(\d*)&lt;/td&gt;&lt;/tr&gt;"
+          url="http://bkjw2.guet.edu.cn/student/labunselect.asp">
+    </page>
+    <page key="UnSelectLabAction"
+          type="post"
+          nomenu="true"
+          postdataFormat="itemno={0}&amp;lwBtnunselect=%CC%E1%BD%BB"
+          pattern=""
+          url="http://bkjw2.guet.edu.cn/student/labunselect.asp">
+    </page>
+    <page key="Logout"
+          type="get"
+          nomenu="true"
+          url="http://bkjw2.guet.edu.cn/student/public/logout.asp" />
+    <pattern key="LoginFail" pattern="&lt;p.+?&gt;&lt;font.+?&gt;&lt;big&gt;&lt;b&gt;(.+?)&lt;/b&gt;&lt;/big&gt;&lt;/font&gt;&lt;/p&gt;"/>
+    <pattern key="Title" pattern="&lt;title&gt;(\u6559\u5b66\u7ba1\u7406\u7cfb\u7edf)\s+?\[(\d+?)\]&lt;/title&gt;"/>
+    <pattern key="Option" pattern="&lt;option value=.+?&gt;(.+?)&lt;/option&gt;"/>
+  </site>
+  <site siteName="Szhxy" encodingName="utf-8">
+    <page key="Login"
+          type="post"
+          nomenu="true"
+          postdataFormat="__EVENTTARGET=&amp;__EVENTARGUMENT=&amp;__VIEWSTATE=%2FwEPDwULLTIxMDY0MDI5ODIPZBYCAgMPZBYCAgUPFgIeB1Zpc2libGVoZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAgUGc3VibWl0BQlDaGVja0JveDG4PH3rUZCRocasCF7mJtbCbGciZg%3D%3D&amp;__EVENTVALIDATION=%2FwEWCQKjpcTxDQL3k5CsCwLu6qzaCAL9ptOZAQLiptOZAQLjptOZAQLtyfn3DQLcu4S2BAKC5Ne7CTgvfa6F4PffLlS6st6756OA2Z%2FA&amp;j_username={0}&amp;j_password={1}&amp;selectUt=0&amp;CheckBox1=on&amp;submit.x=34&amp;submit.y=8"
+          url="http://szhxy.guet.edu.cn/qxgl/public/LoginForm.aspx">
+    </page>
+    <page key="CheckLogin"
+          type="get"
+          nomenu="true"
+          pattern="id=&quot;LUserName&quot;"
+          url="http://szhxy.guet.edu.cn/qxgl/new/footer.aspx">
+    </page>
+    <page key="Logout"
+          type="get"
+          nomenu="true"
+          url="http://szhxy.guet.edu.cn/qxgl/public/Logout.aspx" />
+    <page key="szhxyGetScore"
+          type="post"
+          optional="term"
+          headers="Term|ClassNo|StudentNo|Name|CourseCode|CourseName|CourseNo|Exam|Total|Credits|ScoreType|ExamType|Time"
+          postdataFormat="__EVENTTARGET=&amp;__EVENTARGUMENT=&amp;__VIEWSTATE=YxF8NI5NVEuDQhvy9BUj5M3qpLpC1XX%2Byid4q7OxxxAKZSb%2F1um7UTwVlR3rDiLkYUl79zTqXJ%2FZOQQe7vcXWqE1h3067FmHEmZerdeOXVV1Fqbp8xpzv1xpAQck2jYMz0pAIR5jP7qVlYFNCxHZlMMc83FosELn5irCKJJMn5gKVojsfveaEJZhXwaLJj4xNh5eauwSCuH60TVTIBaT%2B0LQWSVv6xX9ln8cQVZeoTUCi9B%2BA74OZOtys1PtG1qaTGBM%2FoRjZozLSb0UMnzBvA12WoMKLlMIDq89y3SWvx7biPBAbk%2B%2FPUyk6ty3Kow4XaFuY8Cu83KCRQ46gw%2FgjKskB7T67CIEp1St%2B2f4rixec3xB61wP3sfXEvooIBXGof3dhErRPnuzC2eYfnmk9qt7luItNPlCvIRDLZ6W0iNSZQTk3ELbQsnTAot0R2Xzrtp%2B2NBWiOw9v35rY23%2Fgpo9bSAjerOZWi5s8KnC3V%2FpCVN5NIxUibvxSZXa1BQZSkQdAJq8zI68TupKeq6GN0pGA70d14Fo0T%2BTUFq3ygmR3n0FQl41aXa%2BaULGkceu4RO0XV5LGw%2FFsyJp6dELgiDxMY%2FEAAZzCSIcxlPFk%2Fa8mX6cxKrqkz95q7dkSDlp5CigqqdjAnag4L01dGnFGbsk%2BnoVyloEllIOVqAtnlEX%2BJVJLzvpr8NT%2BzpgcuQNGQvJmxWujgc007E1b%2FcKpG9TqY%2FbUrIrfvlEuHSGKt7RGTeOT9qhPRC%2BLI%2BWCFIgZux6JHtkexTPmkR8a7KdnkGEkM3HkDS%2Fu%2Bvg5iC4AQDsaWPpeoxZRiIibNDnqoVhO%2BtlzxhRpby2acpsh6XvHvnGJ1H6i1dlDxcv41RLb32N0oetlzvCwQKkNc48igCX6Y93NCTVEUCZSYINIX%2F%2FWNKFjS1CI0v%2BpRqyy80bKoX4OzJgYurrL9e3NvFuA5A6Ex%2FVdcpH9Y7R5eYxosFcglEakkT8rsqoWjhUG3RKIoxxkYNtw3Xo0cuQQ3VK4GjBcKhZtUk6Ioo%2BITSQUQL6EXnY%2FaXkGfLk%2BORhg6Ao8IvxOFLYiP6pNG6oByMVLladN6HAP%2FhPKaAlAvEmwMwnJnUJrYp2%2FViXDsKcWhjIRVmEunHBh0VdH6mzXZJXwchDIiWb49jQ9em2HVLUiUoGy7By9SUEp1nVnbAShnMPxUDkLuZOGPRX%2BhUmpVXf3JzySDVK2dHxPiMInTc5zaS8ybT2fOq7qIXNdaiEZ9x7Wmjbtc1gw69teWG9DNRMDHOOeP3M77xbcFr92J2kkFGf4Dtxii39KKzKyiZ7YhhYBINttyJ0fdbPq%2Fx7Tsuo%2Bc5jARMpbVhJWGYY%2BcSkWM0imWbc08LdZmBnRV8JILY8CzBnfadLTJshW%2FMs9JpFyQqJ1hNnO6PCcR0Klx0Hz1bgoIPXvTINDw3Kr4uUgOlZCqei3gNcf3q%2F6SrRSmfs%2BW2c3Ga6swmpYo1zCL%2B%2B%2BgkQclHeIhBL%2Bhsiyts4%2Fec9ne0EFqGubG9o5UiihB14GLtvyImT21sdVZSvFZO5eR4WY3t1NN0h%2Brg93hUIAg1SOKaWskdWvUj48pVU%2BcuUlym%2FUbZaq2jV7n6PMoaYT7%2BCNEWdpfJR4H%2Fmt0jcQfcwV%2B7CJLKA75ASqEu6LBthRBv8UAkbHQ2nUHJb%2BjROSEzvraXtLsFeABzTRCuBihPj%2FrtOxHIYwBevtm9c6hxasP6XIkR5BQ0P8RwQ4Uv9HRM6vhGb0rR%2FWLATjf1dRUlLJRLn7eenOXNVEgL1kHj5TM1pBaFlYO9BYF0XzvmGZz3zcPQgXUmiBjJimAzO19I30ohaSU%2Fdvq6jxCUpDLZBVWzkSQ5nucDF2jYFUFrMdJEfqYdxUdppyG04nf6cybaD9QHa%2FCFpTNEXtG%2Bgoo1ha%2BYdeWDjH4828Fz1sTr2Cq%2FkbAEjOPSjqnlhSqXySXjjepPUDLlE48VgKN6llq4BuHcadqTV0%2F0R%2Fb6EN3PPWIbuuH28Ok3yYL4g%2BwGiW%2BuDOa2%2BH%2Bp%2BWWeeAfUxlHMsVJPX%2BvAct5gw65AYWdZsvgcRZxQI%2BKLiJvLQHu8QRts6E9KSq%2BSnHELRqDK5QVwa6itcYbNK8hRBQBd4L%2FNwmCS%2FX1FayhDxHlAt6PCek2xDWOZPFhzLX5KYueNp57wXkf39WJmrmPefn%2F8TWCTPonpsIg%3D%3D&amp;__VIEWSTATEENCRYPTED=&amp;D_terminfo=2015-2016_2&amp;__CALLBACKID=__Page&amp;__CALLBACKPARAM=getQueryData%7C{0}&amp;__EVENTVALIDATION=mUx9VDKCLOUayslNxM0sKZo9c5lrnbuI%2B913FF13U9mg01rO3UDgttFn%2Fp7hvV26TTXtbcuD%2FggYXYEON1UvOVKmWncN2usHzVbOKvkW8%2BfiTOhCwjDbfir1kdmGqyMwrxbg5QbYVS02WxKZLQcscCxq29Ka2NFjPK%2BSALe7ezqqU7O80%2FTUzOrag%2BPwU4w%2FwOFkuU7D8Ti1N57TW9O5nIzOpwT4Yz5I07MntFS%2BL1ljbOJCTfCfEE8HHm2dpjqWCqvQ%2FJ90veMvdGxPWGqCSREsevT%2FolbgXck1gS20tz0SJwlRxePHaXFzXPXbWjQZcKuZ%2BL7veMKlPtfb5mh3sZTwXmYNIIkAg1jwDCiTSpNEi2HGa6GAGEXqL0uUTwS4XOdwLC9LosHQeKrTJQm3AA%3D%3D"
+          pattern="span.+?td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;&lt;td&gt;(.+?)&lt;/td&gt;"
+          url="http://szhxy.guet.edu.cn/qxgl/jxzcpt/dyxt/stscorequery.aspx?tempstr=D1F1EA037022E5B512636ABB239AA38ED611E2A3">
+    </page>
+  </site>
+</models>

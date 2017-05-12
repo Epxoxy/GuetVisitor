@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<cellmonitors>
+  <cellmonitor primaryKeyValue="1622663" columnIndex="7">
+    <firetask url="spno=000005&amp;selecttype=%D6%D8%D0%DE&amp;testtime=&amp;course=1622663&amp;textbook1622663=0&amp;lwBtnselect=%CC%E1%BD%BB"
+              data="http://bkjw2.guet.edu.cn/student/select.asp" typeofpost="true"/>
+  </cellmonitor>
+  <cellmonitor primaryKeyValue="1622663" columnIndex="8">
+    <firetask url="spno=000005&amp;selecttype=%D6%D8%D0%DE&amp;testtime=&amp;course=1622663&amp;textbook1622663=0&amp;lwBtnselect=%CC%E1%BD%BB"
+              data="http://bkjw2.guet.edu.cn/student/select.asp" typeofpost="true"/>
+  </cellmonitor>
+</cellmonitors>
